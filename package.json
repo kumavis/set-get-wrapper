@@ -11,5 +11,8 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:kumavis/set-get-wrapper.git"
+  },
+  "dependencies": {
+    "weak-map": "~1.0.2"
   }
 }
