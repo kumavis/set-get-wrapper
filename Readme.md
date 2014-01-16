@@ -47,6 +47,8 @@ mrSetGet.get('job') //=> 'accountant'
 
 // Discovery - Another way to add keys is to automatically look for unregistered keys
 // Note: this is equivalent to SetGetWrapper.updateKeys(mrRight,Object.keys(mrRight))
+// 'updateKeys' sends the existing values over to mrSetGet
+// To just register new bindings and ignore existing values use 'addKeys'
 mrRight.nickname = 'sri adhikara'
 mrSetGet.get('nickname') //=> undefined
 SetGetWrapper.updateKeys(mrRight)

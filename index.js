@@ -36,8 +36,35 @@ SetGetWrapper.useAsWrapper = function useAsWrapper(wrapper,core,extraKeys){
   })
 }
 
-// Utility - Add additional keys, or search for un-wrapped properties
+// Utility - Discover keys and first shipping the values to the core
 SetGetWrapper.updateKeys = function updateKeys(wrapper,newKeys){
+  // input validation
+  if (!wrapperCoreMap.get(wrapper)) throw TypeError('Argument must be an instance of SetGetWrapper')
+  var data = wrapperCoreMap.get(wrapper)
+  var core = data.core
+  var keys = data.keys
+  newKeys = newKeys || Object.keys(wrapper)
+  var temporaryValueStore = {}
+  // for all keys provided, grab the values
+  newKeys.map(function(key){
+    // exit early if not a new key
+    if (-1 !== keys.indexOf(key)) return
+    // hold on to the raw value the wrapper has
+    temporaryValueStore[key] = wrapper[key]
+  })
+  // setup forwarding on keys
+  SetGetWrapper.addKeys(wrapper,newKeys)
+  // call set for all the values we collected
+  Object.keys(temporaryValueStore).map(function(key){
+    // grab the raw value the wrapper had
+    var value = temporaryValueStore[key]
+    // pass value over to core
+    core.set(key,value)
+  })
+}
+
+// Utility - Add additional keys, overwriting the values
+SetGetWrapper.addKeys = function updateKeys(wrapper,newKeys){
   // input validation
   if (!wrapperCoreMap.get(wrapper)) throw TypeError('Argument must be an instance of SetGetWrapper')
   var data = wrapperCoreMap.get(wrapper)
@@ -49,12 +76,8 @@ SetGetWrapper.updateKeys = function updateKeys(wrapper,newKeys){
     // exit early if not a new key
     if (-1 !== keys.indexOf(key)) return
     keys.push(key)
-    // hold on to the raw value the wrapper has
-    var value = wrapper[key]
     // setup core-wrapper linkage 
     _linkWrapperToCore(wrapper,core,key)
-    // pass previously existing value over to core
-    core.set(key,value)
   })
 }
 
