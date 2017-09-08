@@ -1,5 +1,7 @@
 # SetGetWrapper
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kumavis/set-get-wrapper.svg)](https://greenkeeper.io/)
+
 Ever deal with a framework or module that requires you to use objects with a set/get API?
 Ever get stuck trying to use that opinionated object with an API that expects regular javascript objects?
 Never fear, `SetGetWrapper` is here. Create a wrapper object whose properties are bound to those of the set/get object, but can be accessed normally (some restrictions apply).
